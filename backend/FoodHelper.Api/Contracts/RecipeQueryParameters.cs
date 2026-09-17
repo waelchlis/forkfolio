@@ -7,7 +7,7 @@ public sealed class RecipeQueryParameters
     /// <summary>Free-text search against name/description.</summary>
     public string? Q { get; set; }
 
-    public string? Ingredient { get; set; }
+    public List<string>? Ingredients { get; set; }
 
     public string? CategoryId { get; set; }
 
