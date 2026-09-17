@@ -69,10 +69,7 @@
   "rebaseWhen": "behind-base-branch",
   "timezone": "Europe/Zurich",
   "schedule": [
-    "before 5am every weekday",
-    "after 10pm every weekday",
-    "before 5am on saturday",
-    "before 5am on sunday"
+    "before 10am on monday"
   ],
   "vulnerabilityAlerts": {
     "enabled": true,
