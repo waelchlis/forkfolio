@@ -1,0 +1,91 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":automergeTypeAll"
+  ],
+  "enabledManagers": [
+    "npm",
+    "nuget",
+    "dockerfile",
+    "docker-compose"
+  ],
+  "ignoreUnstable": true,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "automergeType": "pr"
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "non-major",
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "matchPackageNames": ["^@angular/"],
+      "groupName": "Angular packages",
+      "groupSlug": "angular"
+    },
+    {
+      "matchPackageNames": [
+        "^Microsoft\\.AspNetCore\\.",
+        "^Swashbuckle\\.",
+        "^Google\\.Cloud\\."
+      ],
+      "groupName": "Backend .NET packages",
+      "groupSlug": "dotnet"
+    },
+    {
+      "matchManagers": ["dockerfile"],
+      "groupName": "Docker base images",
+      "groupSlug": "docker-images"
+    },
+    {
+      "matchManagers": ["docker-compose"],
+      "groupName": "Docker Compose images",
+      "groupSlug": "docker-compose"
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "automergeType": "pr",
+      "groupName": "Major updates",
+      "groupSlug": "major"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "Dev dependencies",
+      "groupSlug": "dev-deps"
+    }
+  ],
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 12,
+  "automerge": true,
+  "automergeType": "pr",
+  "rebaseWhen": "behind-base-branch",
+  "timezone": "Europe/Zurich",
+  "schedule": [
+    "before 5am every weekday",
+    "after 10pm every weekday",
+    "before 5am on saturday",
+    "before 5am on sunday"
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "addLabels": ["security"],
+    "automerge": true,
+    "automergeType": "pr"
+  },
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bin/**",
+    "**/obj/**",
+    "**/.vscode/**",
+    "**/.git/**",
+    "**/.tools/**"
+  ]
+}
