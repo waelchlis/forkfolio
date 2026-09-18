@@ -177,5 +177,5 @@ public abstract class RecipeStoreContractTests
 
 public class InMemoryRecipeStoreTests : RecipeStoreContractTests
 {
-    protected override IRecipeStore CreateStore() => new InMemoryRecipeStore();
+    protected override IRecipeStore CreateStore() => new InMemoryRecipeStore(useSeedData: false);
 }

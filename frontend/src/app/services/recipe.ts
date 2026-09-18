@@ -47,7 +47,7 @@ export interface RecipeImportResult {
 
 export interface RecipeQuery {
   q?: string;
-  ingredient?: string;
+  ingredients?: string[];
   categoryId?: string;
   dietType?: string;
   maxTotalTime?: number;
@@ -104,9 +104,11 @@ export class RecipeService {
 
   /** Server-side combined filter + sort + cursor pagination, used directly by the recipe list search UI. */
   queryRecipes(query: RecipeQuery): Observable<RecipePage> {
-    let params: Record<string, string> = {};
+    let params: Record<string, string | string[]> = {};
     if (query.q) params['q'] = query.q;
-    if (query.ingredient) params['ingredient'] = query.ingredient;
+    if (query.ingredients && query.ingredients.length > 0) {
+      params['Ingredients'] = query.ingredients;
+    }
     if (query.categoryId) params['categoryId'] = query.categoryId;
     if (query.dietType) params['dietType'] = query.dietType;
     if (query.maxTotalTime) params['maxTotalTime'] = String(query.maxTotalTime);

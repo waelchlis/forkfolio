@@ -6,6 +6,33 @@ namespace FoodHelper.Api.Services;
 public sealed class InMemoryCategoryStore : ICategoryStore
 {
     private readonly ConcurrentDictionary<string, Category> _categories = new();
+    private readonly bool _useSeedData;
+
+    public InMemoryCategoryStore(bool useSeedData = true)
+    {
+        _useSeedData = useSeedData;
+        if (_useSeedData)
+        {
+            SeedInitialData();
+        }
+    }
+
+    private void SeedInitialData()
+    {
+        var categories = new List<Category>
+        {
+            new Category { Id = "cat-dinner", Name = "Dinner" },
+            new Category { Id = "cat-lunch", Name = "Lunch" },
+            new Category { Id = "cat-soup", Name = "Soup" },
+            new Category { Id = "cat-breakfast", Name = "Breakfast" },
+            new Category { Id = "cat-dessert", Name = "Dessert" },
+        };
+
+        foreach (var category in categories)
+        {
+            _categories[category.Id] = category;
+        }
+    }
 
     public Task<IReadOnlyList<Category>> GetAllAsync(CancellationToken cancellationToken)
     {
