@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -29,6 +30,7 @@ import { TIME_OPTIONS } from '../../shared/time-options';
     RouterModule,
     MatButtonModule,
     MatCardModule,
+    MatChipsModule,
     MatIconModule,
     MatToolbarModule,
     MatFormFieldModule,
@@ -43,7 +45,7 @@ import { TIME_OPTIONS } from '../../shared/time-options';
 })
 export class RecipeListComponent implements OnInit {
   searchQuery = signal<string>('');
-  selectedIngredient = signal<string>('');
+  selectedIngredients = signal<string[]>([]);
   selectedCategory = signal<string>('');
   selectedDietType = signal<string[]>([]);
   maxTotalTime = signal<number>(0);
@@ -105,7 +107,7 @@ export class RecipeListComponent implements OnInit {
   private buildQuery(cursor?: string) {
     return {
       q: this.searchQuery() || undefined,
-      ingredient: this.selectedIngredient() || undefined,
+      ingredients: this.selectedIngredients().length > 0 ? this.selectedIngredients() : undefined,
       categoryId: this.selectedCategory() || undefined,
       dietType: this.selectedDietType().length === 1 ? this.selectedDietType()[0] : undefined,
       maxTotalTime: this.maxTotalTime() || undefined,
@@ -140,9 +142,15 @@ export class RecipeListComponent implements OnInit {
     this.runQuery();
   }
 
+  toggleIngredient(ingredient: string): void {
+    const current = this.selectedIngredients();
+    this.selectedIngredients.set(current.includes(ingredient) ? current.filter(i => i !== ingredient) : [...current, ingredient]);
+    this.runQuery();
+  }
+
   clearFilters(): void {
     this.searchQuery.set('');
-    this.selectedIngredient.set('');
+    this.selectedIngredients.set([]);
     this.selectedCategory.set('');
     this.selectedDietType.set([]);
     this.maxTotalTime.set(0);
@@ -151,7 +159,7 @@ export class RecipeListComponent implements OnInit {
   }
 
   hasActiveFilters(): boolean {
-    return !!(this.searchQuery() || this.selectedIngredient() || this.selectedCategory() || this.selectedDietType().length || this.maxTotalTime());
+    return !!(this.searchQuery() || this.selectedIngredients().length > 0 || this.selectedCategory() || this.selectedDietType().length || this.maxTotalTime());
   }
 
   toggleFavorite(recipeId: string): void {

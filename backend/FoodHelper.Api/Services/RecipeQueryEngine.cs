@@ -27,10 +27,12 @@ public static class RecipeQueryEngine
                 r.Description.ToLowerInvariant().Contains(q));
         }
 
-        if (!string.IsNullOrWhiteSpace(query.Ingredient))
+        if (query.Ingredients is { Count: > 0 } ingredients)
         {
-            var ingredient = query.Ingredient.Trim().ToLowerInvariant();
-            filtered = filtered.Where(r => r.Ingredients.Any(i => i.Name.Trim().ToLowerInvariant() == ingredient));
+            var normalizedIngredients = ingredients.Select(i => i.Trim().ToLowerInvariant()).ToHashSet();
+            filtered = filtered.Where(r => 
+                normalizedIngredients.All(ing => 
+                    r.Ingredients.Any(i => i.Name.Trim().ToLowerInvariant() == ing)));
         }
 
         if (!string.IsNullOrWhiteSpace(query.CategoryId))

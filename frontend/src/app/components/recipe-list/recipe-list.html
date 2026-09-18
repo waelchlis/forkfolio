@@ -18,9 +18,8 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="filter-field">
-      <mat-label>Filter by ingredient</mat-label>
-      <mat-select [ngModel]="selectedIngredient()" (ngModelChange)="selectedIngredient.set($event); runQuery()">
-        <mat-option value="">All Ingredients</mat-option>
+      <mat-label>Filter by ingredients</mat-label>
+      <mat-select [ngModel]="selectedIngredients()" (ngModelChange)="selectedIngredients.set($event); runQuery()" multiple placeholder="Select one or more...">
         @for (ingredient of allIngredients(); track ingredient) {
           <mat-option [value]="ingredient">{{ ingredient }}</mat-option>
         }
