@@ -54,4 +54,4 @@ jobs:
 
       - name: Run frontend tests
         working-directory: frontend
-        run: npx vitest run
+        run: npx ng test --no-watch
