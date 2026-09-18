@@ -21,13 +21,13 @@ jobs:
           dotnet-version: 10.0.x
 
       - name: Restore dependencies
-        run: dotnet restore backend/FoodHelper.Api/FoodHelper.Api.csproj
+        run: dotnet restore backend/FoodHelper.slnx
 
       - name: Build backend
         run: dotnet build backend/FoodHelper.Api/FoodHelper.Api.csproj --configuration Release --no-restore
 
       - name: Run backend tests
-        run: dotnet test backend/FoodHelper.Api.Tests/FoodHelper.Api.Tests.csproj --configuration Release --no-build --verbosity normal
+        run: dotnet test backend/FoodHelper.Api.Tests/FoodHelper.Api.Tests.csproj --configuration Release --verbosity normal
 
   test-frontend:
     name: Test Frontend
