@@ -18,7 +18,7 @@ var environmentSettingsFile = builder.Environment.IsDevelopment()
     : "appsettings.Production.json";
 builder.Configuration.AddJsonFile(
     environmentSettingsFile,
-    optional: builder.Environment.IsDevelopment(),
+    optional: true,
     reloadOnChange: builder.Environment.IsDevelopment());
 
 builder.Services.Configure<FirebaseOptions>(builder.Configuration.GetSection("Firebase"));
